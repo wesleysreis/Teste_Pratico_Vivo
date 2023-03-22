@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "bf86e3ed-304c-4ad8-aa0e-7dcec9fed57d",
+		"name": "Correios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13559864"
+	},
+	"item": [
+		{
+			"name": "Consulta CEP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.request.method == 'POST'){\r",
+							"    pm.test(\"Valida se retornou o status 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"    pm.test(\"Valida se o tempo de reposta é inferior a 2s\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"    });\r",
+							"\r",
+							"}\r",
+							"    pm.test(\"Valida se o CEP informado tem o tamanho mínimo exigido\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"CEP com tamanho mínimo:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cep']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cep']).to.have.lengthOf(8);\r",
+							"      \r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Valida se o bairro tem valor de uma string\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"Bairro deverá ter um valor de uma string:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['bairro']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['bairro']).to.be.a(\"string\");\r",
+							"      \r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Valida se o cep tem valor de uma string\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"CEP deverá ter um valor de uma string:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cep']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cep']).to.be.a(\"string\");\r",
+							"      \r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Valida se a cidade tem valor de uma string\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"Cidade deverá ter um valor de uma string:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cidade']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cidade']).to.be.a(\"string\");\r",
+							"      \r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Valida se a complemento tem valor de uma string\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"Comploemento deverá ter um valor de uma string:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['complemento2']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['complemento2']).to.be.a(\"string\");\r",
+							"      \r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Valida se o endereço tem valor de uma string\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"Endereço deverá ter um valor de uma string:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['end']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['end']).to.be.a(\"string\");\r",
+							"      \r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Valida se a uf tem valor de uma string\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"UF deverá ter um valor de uma string:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['uf']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['uf']).to.be.a(\"string\");\r",
+							"      \r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Valida os nomes dos campos retornado no response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"bairro\", \"cep\", \"cidade\", \"complemento2\", \"end\",\"uf\");\r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Retorna o nome do bairro referente ao CEP informado\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"\r",
+							"      console.log(\"Bairro:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['bairro']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['bairro']).toString(\"bairro\");\r",
+							"\r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Retorna o cep informado\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    \r",
+							"      console.log(\"CEP:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cep']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cep']).toString(\"cep\");\r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Retorna o nome do cidade referente ao CEP informado\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"   \r",
+							"      console.log(\"Cidade:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cidade']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['cidade']).toString(\"cidade\");\r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Retorna o nome do complemento referente ao CEP informado\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"   \r",
+							"      console.log(\"Complemento:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['complemento2']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['complemento2']).toString(\"complemento\");\r",
+							"});\r",
+							" \r",
+							"    pm.test(\"Retorna o UF referente ao CEP informado\", function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"   \r",
+							"      console.log(\"UF:\",jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['uf']);\r",
+							"      pm.expect(jsonObject['soap:Envelope']['soap:Body']['ns2:consultaCEPResponse']['return']['uf']).toString(\"uf\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"cep\", \"04205000\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <Body>\r\n        <consultaCEP xmlns=\"http://cliente.bean.master.sigep.bsb.correios.com.br/\">\r\n            <cep xmlns=\"\">{{cep}}</cep>\r\n        </consultaCEP>\r\n    </Body>\r\n</Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{urlBase}}/SigepMasterJPA/AtendeClienteService/AtendeCliente",
+					"host": [
+						"{{urlBase}}"
+					],
+					"path": [
+						"SigepMasterJPA",
+						"AtendeClienteService",
+						"AtendeCliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VIACEP_ConsultaCEP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validação dos campos de retorno da api dos correios de acordo com o cep informado\", function() {\r",
+							"    pm.response.to.have.status(200)\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"cep\", \"72220245\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "viacep.com.br/ws/{{cep}}/json/",
+					"host": [
+						"viacep",
+						"com",
+						"br"
+					],
+					"path": [
+						"ws",
+						"{{cep}}",
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "cep",
+			"value": "72460260",
+			"type": "string"
+		},
+		{
+			"key": "urlBase",
+			"value": "https://apps.correios.com.br",
+			"type": "string"
+		}
+	]
+}
